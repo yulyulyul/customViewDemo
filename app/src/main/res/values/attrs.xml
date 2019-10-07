@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomCircle">
+        <attr name="lineColor" format="color"/>
+        <attr name="lineType" format="integer"/>
+
+    </declare-styleable>
+</resources>
