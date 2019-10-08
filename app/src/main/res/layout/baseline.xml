@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:id="@+id/rootLine"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLine"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -117,9 +116,10 @@
             android:text="1"
             />
         <jso.kpl.demo.myview.CustomCircle
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@color/colorPrimaryDark"
+            android:id="@+id/customLine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lineType="0"
             >
 
         </jso.kpl.demo.myview.CustomCircle>

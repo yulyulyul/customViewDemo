@@ -30,30 +30,14 @@ class MainActivity : AppCompatActivity()
         viewList.add(view3)
         viewList.add(view4)
 
-        var mv : MyCanvas = MyCanvas(this)
-        viewList.get(0).rbottom.addView(mv)
         viewList.get(2).leftb.text = "7"
         viewList.get(2).centerb.text = "6"
         viewList.get(2).rightb.text = "5"
+        viewList.get(2).customLine.lineType = 1
 
         for (v in viewList)
         {
             rootGrid.addView(v)
-        }
-    }
-
-    inner class MyCanvas : View
-    {
-        constructor(context: Context) : super(context) {}
-        constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {}
-
-        protected override fun onDraw(canvas: Canvas)
-        {
-            super.onDraw(canvas)
-
-            val paint = Paint()
-            paint.color = Color.RED
-            canvas.drawRect(0f, 0f, 30f, 30f, paint)
         }
     }
 }
