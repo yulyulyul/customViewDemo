@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <Button
+        android:id="@+id/nodeBtn"
+        android:layout_width="@dimen/node_size"
+        android:layout_height="@dimen/node_size"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/style_circular_button"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/nodeBtn">
+
+        <ImageView
+            android:id="@+id/locationView"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="3dp"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/placeholder"/>
+
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Korea"
+            android:textSize="10dp"
+            android:layout_below="@+id/locationView"
+            />
+    </LinearLayout>
+</RelativeLayout>

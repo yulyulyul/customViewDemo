@@ -3,40 +3,41 @@ package jso.kpl.demo.myview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
-
 import jso.kpl.demo.R;
 
-public class CustomCircle extends View
+public class CustomLine extends View
 {
     private int lineColor;
     private int lineType;
+    private boolean dash;
 
     private PointF[] leftTobottom;
     private PointF[] leftToTop;
+    private PointF[] rightToBottom;
+    private PointF[] rightToTop;
+    private PointF[] horizontal_line;
 
+    private Paint paint;
 
-    public CustomCircle(Context context)
+    public CustomLine(Context context)
     {
         super(context);
-
     }
 
-    public CustomCircle(Context context, AttributeSet attrs)
+    public CustomLine(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(attrs);
     }
 
-    public CustomCircle(Context context, AttributeSet attrs, int defStyleAttr)
+    public CustomLine(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
     }
@@ -59,13 +60,18 @@ public class CustomCircle extends View
     {
         super.onDraw(canvas);
 
-        //Paint Setting
-        Paint paint  = new Paint();
+        paint  = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
         //선의 굵기를 세팅하는 곳. px 단위인데 dp 단위로 바꿔서 통일시켜야함.
         paint.setStrokeWidth(8);
         paint.setColor(getLineColor());
+
+        // dash선 적용
+        if(getDash())
+        {
+            paint.setPathEffect(new DashPathEffect(new float[] {10,20}, 0));
+        }
 
         //좌표 초기화
         pointFinit(canvas);
@@ -78,9 +84,16 @@ public class CustomCircle extends View
             case 1:
                 canvas.drawPath(drawCurve(leftToTop[0],leftToTop[1], leftToTop[2]), paint);
                 break;
+            case 2:
+                canvas.drawPath(drawCurve(rightToTop[0],rightToTop[1], rightToTop[2]), paint);
+                break;
+            case 3:
+                canvas.drawPath(drawCurve(rightToBottom[0],rightToBottom[1], rightToBottom[2]), paint);
+                break;
+            case 4:
+                canvas.drawPath(drawCurve(horizontal_line[0],horizontal_line[1], horizontal_line[2]), paint);
+                break;
         }
-
-
     }
 
     /**
@@ -108,6 +121,18 @@ public class CustomCircle extends View
         leftToTop[1] = centerP;
         leftToTop[2] = endPoint2;
 
+        PointF startPoint3 = new PointF(w, h_2);
+        rightToBottom[0] = startPoint3;
+        rightToBottom[1] = centerP;
+        rightToBottom[2] = endPoint1;
+
+        rightToTop[0] = endPoint2;
+        rightToTop[1] = centerP;
+        rightToTop[2] = startPoint3;
+
+        horizontal_line[0] = startPoint1;
+        horizontal_line[1] = centerP;
+        horizontal_line[2] = startPoint3;
 
     }
 
@@ -115,16 +140,30 @@ public class CustomCircle extends View
     {
         leftTobottom = new PointF[3];
         leftToTop = new PointF[3];
+        rightToBottom = new PointF[3];
+        rightToTop = new PointF[3];
+        horizontal_line = new PointF[3];
 
-        TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.CustomCircle,0,0);
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.CustomLine,0,0);
         try
         {
-            this.lineColor = a.getColor(R.styleable.CustomCircle_lineColor,0xffc0c0c0);
-            this.lineType = a.getInteger(R.styleable.CustomCircle_lineType, 0);
+            this.lineColor = a.getColor(R.styleable.CustomLine_lineColor,0xffc0c0c0);
+            this.lineType = a.getInteger(R.styleable.CustomLine_lineType, 0);
+            this.dash = a.getBoolean(R.styleable.CustomLine_dash, false);
         }
         finally
         {
         }
+    }
+
+    public boolean getDash(){
+        return dash;
+    }
+    public void setDash(boolean _dash)
+    {
+        this.dash = _dash;
+        invalidate();
+        requestLayout();
     }
 
     public int getLineColor()

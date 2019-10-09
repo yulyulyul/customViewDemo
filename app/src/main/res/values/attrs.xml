@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CustomCircle">
+    <declare-styleable name="CustomLine">
         <attr name="lineColor" format="color"/>
         <attr name="lineType" format="integer"/>
-
+        <attr name="dash" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="CustomNode">
+    </declare-styleable>
+
+
 </resources>
