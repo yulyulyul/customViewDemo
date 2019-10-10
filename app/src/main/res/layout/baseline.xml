@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLine"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="horizontal">
     <RelativeLayout
         android:layout_width="0dp"
@@ -18,7 +19,7 @@
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="@dimen/root_node_height"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <jso.kpl.demo.myview.CustomLine
@@ -36,24 +37,15 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
-        <Button
-            android:visibility="gone"
-            android:id="@+id/leftb"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:layout_width="@dimen/node_size"
-            android:layout_height="@dimen/node_size"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:background="@drawable/style_circular_button"
-            />
 
         <jso.kpl.demo.myview.CustomNode
+            android:id="@+id/leftb"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:locationName="Korea"
+            >
         </jso.kpl.demo.myview.CustomNode>
     </RelativeLayout>
 
@@ -71,32 +63,22 @@
             app:dash="true"
             >
         </jso.kpl.demo.myview.CustomLine>
-        <View
-            android:id="@+id/lineview1a"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_centerVertical="true"
-            android:background="@color/cline"
-            android:visibility="gone"
-            />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
-        <Button
-            android:visibility="visible"
+        <jso.kpl.demo.myview.CustomNode
             android:id="@+id/centerb"
-            android:layout_width="@dimen/node_size"
-            android:layout_height="@dimen/node_size"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/style_circular_button"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:locationName="Spain"
+            >
+        </jso.kpl.demo.myview.CustomNode>
     </RelativeLayout>
 
     <RelativeLayout
@@ -114,32 +96,21 @@
             >
         </jso.kpl.demo.myview.CustomLine>
 
-        <View
-            android:id="@+id/lineview2a"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_centerVertical="true"
-            android:background="@color/cline"
-            android:visibility="gone"
-            />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
-        <Button
+        <jso.kpl.demo.myview.CustomNode
             android:id="@+id/rightb"
-            android:layout_width="@dimen/node_size"
-            android:layout_height="@dimen/node_size"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/style_circular_button"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:locationName="Swiss"
+            >
+        </jso.kpl.demo.myview.CustomNode>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rbottom"

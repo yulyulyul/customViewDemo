@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:background="@color/testColor">
+
     <Button
         android:id="@+id/nodeBtn"
         android:layout_width="@dimen/node_size"
@@ -28,16 +30,17 @@
             android:layout_height="10dp"
             android:layout_marginRight="3dp"
             android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/placeholder"/>
+            app:srcCompat="@drawable/placeholder_white"/>
 
         <TextView
             android:id="@+id/locationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Korea"
             android:textSize="10dp"
             android:layout_below="@+id/locationView"
+            tools:textColor="@color/white"
+            tools:text="Kappadokia"
             />
     </LinearLayout>
 </RelativeLayout>

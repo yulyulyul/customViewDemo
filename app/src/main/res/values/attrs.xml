@@ -6,6 +6,7 @@
         <attr name="dash" format="boolean" />
     </declare-styleable>
     <declare-styleable name="CustomNode">
+        <attr name="locationName" format="string"/>
     </declare-styleable>
 
 

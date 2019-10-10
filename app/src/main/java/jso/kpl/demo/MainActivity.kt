@@ -11,6 +11,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import androidx.annotation.Nullable
 import androidx.core.view.marginTop
+import kotlinx.android.synthetic.main.custom_node.view.*
 
 
 class MainActivity : AppCompatActivity()
@@ -43,8 +44,13 @@ class MainActivity : AppCompatActivity()
 
         viewList.get(2).rightb.visibility = View.INVISIBLE
         viewList.get(2).centerb.visibility = View.INVISIBLE
-        viewList.get(2).leftb.text = "?"
         viewList.get(2).customLine.visibility = View.INVISIBLE
+
+        viewList.get(1).leftb.locationName = "Paris"
+        viewList.get(1).centerb.locationName = "Barcelona"
+        viewList.get(1).rightb.locationName = "Roma"
+
+        viewList.get(2).leftb.locationName = "China"
 
 //        viewList.get(1).customLine.lineType = 1
 
