@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.gridlayout.widget.GridLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootGrid"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="mainvm"
+            type="jso.kpl.demo.viewmodel.MainViewModel"/>
+    </data>
+
+<LinearLayout
+    android:id="@+id/rootLinearLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:columnCount="1"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-</androidx.gridlayout.widget.GridLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rootRecycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
+</layout>

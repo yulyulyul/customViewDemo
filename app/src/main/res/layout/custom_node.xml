@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="RouteModel"
+            type="jso.kpl.demo.viewmodel.Route"/>
+    </data>
+
+<RelativeLayout
     android:orientation="vertical"
     android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/root_node_height"
     tools:background="@color/testColor">
 
     <Button
@@ -34,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/nodeBtn"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="5dp"
         app:lineType="4"
         app:lineColor="@color/cline"
         app:dash="false"
@@ -72,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textSize="10dp"
+                android:text="@{RouteModel.location}"
                 tools:textColor="@color/white"
                 tools:text="Sweden"
                 />
@@ -99,13 +109,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textSize="10dp"
-                android:text="300만원"
+                android:text="@{RouteModel.cost}"
                 tools:textColor="@color/white"
                 tools:text="30,0000"
                 />
         </LinearLayout>
     </LinearLayout>
-
-
-
 </RelativeLayout>
+</layout>
