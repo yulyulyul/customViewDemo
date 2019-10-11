@@ -65,9 +65,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="left"
+            android:layoutDirection="ltr"
              >
 
             <ImageView
+                android:layout_alignParentLeft="true"
                 android:id="@+id/locationView"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
@@ -76,6 +79,7 @@
                 app:srcCompat="@drawable/placeholder_white"/>
 
             <TextView
+                android:layout_alignParentLeft="true"
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,9 +97,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="left"
+            android:layoutDirection="ltr"
             >
 
             <ImageView
+                android:layout_alignParentLeft="true"
                 android:id="@+id/costimg"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
@@ -104,6 +111,7 @@
                 app:srcCompat="@drawable/cost_white"/>
 
             <TextView
+                android:layout_alignParentLeft="true"
                 android:id="@+id/costtv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +119,7 @@
                 android:textSize="10dp"
                 android:text="@{RouteModel.cost}"
                 tools:textColor="@color/white"
-                tools:text="30,0000"
+                tools:text="300만원"
                 />
         </LinearLayout>
     </LinearLayout>
