@@ -34,25 +34,38 @@ class MainActivity : AppCompatActivity()
         //viewList.add(view4)
         viewList.add(view5)
 
-        viewList.get(0).customLineF.visibility = View.INVISIBLE
+//        viewList.get(0).customLineF.visibility = View.INVISIBLE
+//
+//        viewList.get(1).customLine.lineType = 1
+//        viewList.get(2).customLineF.lineType = 2
+//
+        viewList.get(0).leftb.setHeadlineVisiblity(1)
+        viewList.get(0).leftb.cost = "100만원"
+        viewList.get(0).centerb.cost = "150만원"
+        viewList.get(0).rightb.cost = "175만원"
 
-        viewList.get(1).customLine.lineType = 1
-        viewList.get(2).customLineF.lineType = 2
+        viewList.get(1).leftb.cost = "50만원"
+        viewList.get(1).centerb.cost = "10만원"
+        viewList.get(1).rightb.cost = "230만원"
 
-        viewList.get(2).lineview1.visibility = View.INVISIBLE
-        viewList.get(2).lineview2.visibility = View.INVISIBLE
+        viewList.get(1).leftb.cost = "85만원"
 
-        viewList.get(2).rightb.visibility = View.INVISIBLE
         viewList.get(2).centerb.visibility = View.INVISIBLE
-        viewList.get(2).customLine.visibility = View.INVISIBLE
+        viewList.get(2).rightb.visibility = View.INVISIBLE
 
+//        viewList.get(2).rightb.visibility = View.INVISIBLE
+//        viewList.get(2).centerb.visibility = View.INVISIBLE
+//        viewList.get(2).customLine.visibility = View.INVISIBLE
+
+        viewList.get(1).leftb.headLineType = 3
         viewList.get(1).leftb.locationName = "Paris"
         viewList.get(1).centerb.locationName = "Barcelona"
         viewList.get(1).rightb.locationName = "Roma"
+        viewList.get(1).rightb.tailLineType = 1
 
+        viewList.get(2).leftb.headLineType = 2
         viewList.get(2).leftb.locationName = "China"
-
-//        viewList.get(1).customLine.lineType = 1
+        viewList.get(2).leftb.setTailLineVisiblity(1)
 
         for (v in viewList)
         {

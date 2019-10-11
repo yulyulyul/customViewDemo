@@ -4,38 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLine"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/root_node_height"
     android:orientation="horizontal">
+
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="@dimen/root_node_height"
-        android:layout_weight="1">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <jso.kpl.demo.myview.CustomLine
-            android:id="@+id/customLineF"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lineType="3"
-            app:lineColor="@color/cline"
-            app:dash="true"
-            >
-        </jso.kpl.demo.myview.CustomLine>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <jso.kpl.demo.myview.CustomNode
@@ -43,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:locationName="Korea"
             >
         </jso.kpl.demo.myview.CustomNode>
@@ -51,95 +25,33 @@
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <jso.kpl.demo.myview.CustomLine
-            android:id="@+id/lineview1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lineType="4"
-            app:lineColor="@color/cline"
-            app:dash="true"
-            >
-        </jso.kpl.demo.myview.CustomLine>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/root_node_height"
         android:layout_weight="1">
         <jso.kpl.demo.myview.CustomNode
             android:id="@+id/centerb"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:locationName="Spain"
             >
         </jso.kpl.demo.myview.CustomNode>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <jso.kpl.demo.myview.CustomLine
-            android:id="@+id/lineview2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lineType="4"
-            app:lineColor="@color/cline"
-            app:dash="true"
-            >
-        </jso.kpl.demo.myview.CustomLine>
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/root_node_height"
         android:layout_weight="1">
         <jso.kpl.demo.myview.CustomNode
             android:id="@+id/rightb"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:locationName="Swiss"
+            android:layout_height="wrap_content"
+            app:locationName="Sweden"
+            app:taillineType="0"
             >
         </jso.kpl.demo.myview.CustomNode>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/rbottom"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <jso.kpl.demo.myview.CustomLine
-            android:id="@+id/customLine"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lineType="0"
-            app:lineColor="@color/cline"
-            app:dash="true"
-            >
-        </jso.kpl.demo.myview.CustomLine>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:visibility="invisible"
-            android:text="1"
-            />
-
     </RelativeLayout>
 </LinearLayout>

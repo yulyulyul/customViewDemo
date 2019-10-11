@@ -17,30 +17,95 @@
         android:background="@drawable/style_circular_button"
         />
 
+    <jso.kpl.demo.myview.CustomLine
+        android:id="@+id/headLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/nodeBtn"
+        android:layout_marginRight="5dp"
+        app:lineType="4"
+        app:lineColor="@color/cline"
+        app:dash="false"
+        >
+    </jso.kpl.demo.myview.CustomLine>
+
+    <jso.kpl.demo.myview.CustomLine
+        android:id="@+id/tailLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/nodeBtn"
+        android:layout_marginLeft="8dp"
+        app:lineType="4"
+        app:lineColor="@color/cline"
+        app:dash="false"
+        >
+    </jso.kpl.demo.myview.CustomLine>
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_below="@+id/nodeBtn"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/nodeBtn">
+        >
 
-        <ImageView
-            android:id="@+id/locationView"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginRight="3dp"
-            android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/placeholder_white"/>
-
-        <TextView
-            android:id="@+id/locationText"
+        <LinearLayout
+            android:id="@+id/nodeLinear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="10dp"
-            android:layout_below="@+id/locationView"
-            tools:textColor="@color/white"
-            tools:text="Kappadokia"
-            />
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+             >
+
+            <ImageView
+                android:id="@+id/locationView"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="3dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/placeholder_white"/>
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="10dp"
+                tools:textColor="@color/white"
+                tools:text="Sweden"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nodeCostLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            >
+
+            <ImageView
+                android:id="@+id/costimg"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="3dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/cost_white"/>
+
+            <TextView
+                android:id="@+id/costtv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="10dp"
+                android:text="300만원"
+                tools:textColor="@color/white"
+                tools:text="30,0000"
+                />
+        </LinearLayout>
     </LinearLayout>
+
+
+
 </RelativeLayout>
