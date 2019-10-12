@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import jso.kpl.demo.R;
@@ -25,6 +26,9 @@ public class CustomLine extends View
     private PointF[] horizontal_line;
 
     private Paint paint;
+
+    public static String TAG = "Demo.CustomLine";
+
 
     public CustomLine(Context context)
     {
@@ -133,7 +137,6 @@ public class CustomLine extends View
         horizontal_line[0] = startPoint1;
         horizontal_line[1] = centerP;
         horizontal_line[2] = startPoint3;
-
     }
 
     private void init(AttributeSet attrs)
