@@ -13,7 +13,7 @@ class MainViewModel(application: Application): AndroidViewModel(application)
         Log.d(TAG, "MainViewModel -> init")
         Routelist = MutableLiveData<MutableList<Route>>()
         Routelist?.value = mutableListOf()
-        DataInsert()
+//        DataInsert()
     }
 
     private fun DataInsert()

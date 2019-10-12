@@ -1,5 +1,6 @@
 package jso.kpl.demo
 
+import android.util.Log
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +12,8 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun addition_isCorrect()
+    {
+        System.out.println("3%3 == ? " + 5%3)
     }
 }

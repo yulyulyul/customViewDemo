@@ -1,9 +1,11 @@
 package jso.kpl.demo
 
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +14,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import jso.kpl.demo.adapter.NodeAdapter
 import jso.kpl.demo.adapter.RouteAdapter
 import jso.kpl.demo.databinding.ActivityMainBinding
 import jso.kpl.demo.myview.CustomNode
 import jso.kpl.demo.viewmodel.MainViewModel
+import jso.kpl.demo.viewmodel.Route
 import kotlinx.android.synthetic.main.baseline.view.*
 import kotlinx.android.synthetic.main.custom_node.view.*
 
@@ -33,7 +37,30 @@ class MainActivity : AppCompatActivity()
         mainViewMdoel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         mainBinding?.mainvm = mainViewMdoel
 
-        var LinearParams1 : LinearLayout.LayoutParams = LinearLayout.LayoutParams(0, 300)
+        var abc : NodeAdapter = NodeAdapter(this, rootLinearLay)
+        abc.putItem(Route("Italia","250만원"))
+        abc.putItem(Route("Korea","200만원"))
+        abc.putItem(Route("Sweden","230만원"))
+        abc.putItem(Route("Turkey","150만원"))
+        abc.putItem(Route("Brazil","180만원"))
+        abc.putItem(Route("France","200만원"))
+        abc.putItem(Route("Swiss","220만원"))
+        abc.putItem(Route("Swiass","240만원"))
+        abc.putItem(Route("France","200만원"))
+        abc.putItem(Route("Swiss","220만원"))
+//        abc.putItem(Route("Swiass","240만원"))
+//        abc.putItem(Route("France","200만원"))
+//        abc.putItem(Route("Swiss","220만원"))
+//        abc.putItem(Route("Swiass","240만원"))
+//        abc.putItem(Route("France","200만원"))
+//        abc.putItem(Route("Swiss","220만원"))
+//        abc.putItem(Route("Swiass","240만원"))
+
+
+
+
+        /*
+        var LinearParams1 : LinearLayout.LayoutParams = LinearLayout.LayoutParams(0, dpToPx(80f))
         LinearParams1.weight = 1f
 
         var Linear1 : (LinearLayout) = LayoutInflater.from(this).inflate(R.layout.skeleton,null, false) as LinearLayout
@@ -61,7 +88,7 @@ class MainActivity : AppCompatActivity()
         cnode.layoutParams = LinearParams1
         cnode.locationText.text = "Sweden"
         cnode.costtv.text="230만원"
-//        cnode.headLine.visibility = View.INVISIBLE
+        cnode.headLine.visibility = View.INVISIBLE
 //        cnode.tailLine.visibility = View.INVISIBLE
 
 
@@ -77,8 +104,8 @@ class MainActivity : AppCompatActivity()
 //        cnode3.tailLine.visibility = View.INVISIBLE
 
         Linear1.addView(cnode)
-//        Linear1.addView(cnode2)
-//        Linear1.addView(cnode3)
+        Linear1.addView(cnode2)
+        Linear1.addView(cnode3)
 
         cnode4.layoutParams = LinearParams1
         cnode4.locationText.text = "France"
@@ -107,18 +134,31 @@ class MainActivity : AppCompatActivity()
         cnode7.costtv.text="340만원"
         cnode7.headLine.lineType = 2
 //        cnode7.headLine.visibility = View.INVISIBLE
-        cnode7.tailLine.visibility = View.INVISIBLE
+//        cnode7.tailLine.visibility = View.INVISIBLE
 
         Linear3.weightSum = 3f
+        cnode8.layoutParams = LinearParams1
+        cnode8.locationText.text = "Dubai"
+        cnode8.costtv.text="500만원"
+//        cnode2.tailLine.visibility = View.INVISIBLE
+
+        cnode9.layoutParams = LinearParams1
+        cnode9.locationText.text = "Austrailia"
+        cnode9.costtv.text="130만원"
+        cnode9.tailLine.lineType = 0
+        cnode9.tailLine.visibility = View.INVISIBLE
+
         Linear3.addView(cnode7)
+        Linear3.addView(cnode8)
+        Linear3.addView(cnode9)
 
         rootLinearLay.addView(Linear1)
-//        rootLinearLay.addView(Linear2)
-//        rootLinearLay.addView(Linear3)
-
-
+        rootLinearLay.addView(Linear2)
+        rootLinearLay.addView(Linear3)
+         */
         initObservables()
     }
+
 
     companion  object {
         val TAG = "Demo.MainActivity"
