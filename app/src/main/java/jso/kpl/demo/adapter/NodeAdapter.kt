@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.core.view.get
 import androidx.core.view.size
 import jso.kpl.demo.App
@@ -63,23 +64,10 @@ class NodeAdapter
         return this.itemList.size
     }
 
-    /**
-     *  실질적으로 아이템을 추가하고 화면에 그려주는 메서드.
-     *  화면에 그려주기 전에 아래와 같은 과정을 거쳐야한다.
-     *
-     *  코드 구조가 NodeAdpater를 생성하면 drawQuestionMarkNode() 메서드를 통해서 ?노드가 생성됨
-     *  즉 모든 정상적인 Route 노드가 생성되기 위해서는 Route 노드가 생성되는 자리를 ?노드가
-     *  자리 차지하고 있으므로 ?노드를 날려주어야한다.
-     *
-     *  1. ?노드를 날려주기 위하여 마지막 노드(lastidx)를 구하고 해당 인덱스로 itemList에 적재된 ?노드를 데이터를 지운다.
-     *  2. ?노드가 어디에 삽입되었는지 알아내기 위해서 ?노드가 생성된 LinearLayout(targetLinear)을 parent_view_Tag를 통해서 찾고
-     *  3. 해당 LinearLayout에 삽입된 ?노드(targetView)를 찾아낸다.
-     *  4. targetLinear에서 targetView를 지워준다.
-     *  5. idx_viewTag에서 ?노드의 index와 viewTag를 지워준다.
-     *  6. lastidx가 3으로 나눠떨어지는 경우 새롭게 LinearLayout을 동적으로 생성된 경우기 때문에 RootLinear에서 지워준다.
-     *  7. Linear가 생성되어 개행된 경우 CurrentColumn가 증가했으므로 -1을 해준다.
+    /*
+       노드의 맨 마지막에 생성되는 QuestionMarkNode를 지워준다.
      */
-    fun putItem(_route:Route)
+    private  fun removeQestionMarkNode()
     {
         var lastidx:Int = itemList.size-1
 
@@ -114,7 +102,27 @@ class NodeAdapter
         {
             Log.d(TAG, "lastidx가 3의 배수가 아닙니다.")
         }
+    }
 
+    /**
+     *  실질적으로 아이템을 추가하고 화면에 그려주는 메서드.
+     *  화면에 그려주기 전에 아래와 같은 과정을 거쳐야한다.
+     *
+     *  코드 구조가 NodeAdpater를 생성하면 drawQuestionMarkNode() 메서드를 통해서 ?노드가 생성됨
+     *  즉 모든 정상적인 Route 노드가 생성되기 위해서는 Route 노드가 생성되는 자리를 ?노드가
+     *  자리 차지하고 있으므로 ?노드를 날려주어야한다.
+     *
+     *  1. ?노드를 날려주기 위하여 마지막 노드(lastidx)를 구하고 해당 인덱스로 itemList에 적재된 ?노드를 데이터를 지운다.
+     *  2. ?노드가 어디에 삽입되었는지 알아내기 위해서 ?노드가 생성된 LinearLayout(targetLinear)을 parent_view_Tag를 통해서 찾고
+     *  3. 해당 LinearLayout에 삽입된 ?노드(targetView)를 찾아낸다.
+     *  4. targetLinear에서 targetView를 지워준다.
+     *  5. idx_viewTag에서 ?노드의 index와 viewTag를 지워준다.
+     *  6. lastidx가 3으로 나눠떨어지는 경우 새롭게 LinearLayout을 동적으로 생성된 경우기 때문에 RootLinear에서 지워준다.
+     *  7. Linear가 생성되어 개행된 경우 CurrentColumn가 증가했으므로 -1을 해준다.
+     */
+    fun putItem(_route:Route)
+    {
+        removeQestionMarkNode()
         itemList.add(_route)
         var idx:Int = itemList.indexOf(_route)
         drawView(idx)
@@ -195,7 +203,7 @@ class NodeAdapter
                 visible_TailLine_Previous_Node(index)
             }
             //노드를 Linear에 추가
-            addNode(node)
+            addNode(node, index)
         }
         //짝수행인 경우.
         else
@@ -242,17 +250,18 @@ class NodeAdapter
                 visible_HeadLine_Previous_Node(index)
             }
             //노드를 Linear에 추가
-            addNode(node)
+            addNode(node, index)
         }
     }
 
     // 어차피 추가되는것은 RootLinear의 마지막 Child에게 추가될 것이기 때문에
     // RootLinear의 마지막 view에 추가한다.
-    private fun addNode(_node :View)
+    private fun addNode(_node :View, _idx:Int)
     {
 
         /*
-            ?노드를 눌렀을때 노드가 추가되는지 확인하기 위한 코드 실제 코드에서는 putItem으로 추가하면됨.
+            ?노드를 눌렀을때 노드가 추가/삭제 되는지 확인하기 위한 코드
+            추가 : 실제 코드에서는 putItem으로 추가하면됨.
          */
         if(_node.costtv.text.equals("?"))
         {
@@ -264,6 +273,31 @@ class NodeAdapter
                     putItem(MainActivity.dataList.get(MainActivity.dlistidx))
                     MainActivity.dlistidx+=1
                 }
+            })
+        }
+        else
+        {
+            _node.setOnLongClickListener(View.OnLongClickListener{
+                Toast.makeText(ctx, "해당 노드를 삭제합니다.", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "삭제 노드`s idx = " + _idx)
+                Log.d(TAG, "삭제 노드`s location = " + _node.locationText.text)
+                Log.d(TAG, "삭제 노드`s cost = " + _node.costtv.text)
+//                removeQestionMarkNode()
+//                Log.d(TAG,"1. idx val = " + _idx)
+//                idx_viewTag.remove(_idx)
+//                Log.d(TAG,"2. idx val = " + _idx)
+//                itemList.removeAt(_idx)
+
+                Log.d(TAG,"idx_viewTag.size -1 :  " + (idx_viewTag.size -1))
+                val targetIdx : Int = idx_viewTag.size-1
+                for(i in _idx..targetIdx)
+                {
+                    Log.d(TAG, "i = " + i)
+                    var tmpIdx : Int = _idx + 1
+                    idx_viewTag.replace(_idx, idx_viewTag.get(tmpIdx)!!)
+                }
+
+                true
             })
         }
         // ========== 여기까지 테스트 코드 =============
