@@ -26,7 +26,7 @@
         android:layout_marginRight="5dp"
         app:lineType="4"
         app:lineColor="@color/cline"
-        app:dash="false"
+        app:dash="true"
         >
     </jso.kpl.demo.myview.CustomLine>
 
@@ -38,7 +38,7 @@
         android:layout_marginLeft="5dp"
         app:lineType="4"
         app:lineColor="@color/cline"
-        app:dash="false"
+        app:dash="true"
         >
     </jso.kpl.demo.myview.CustomLine>
 

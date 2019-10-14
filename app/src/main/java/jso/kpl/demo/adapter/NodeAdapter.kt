@@ -7,9 +7,11 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.get
 import androidx.core.view.size
 import jso.kpl.demo.App
+import jso.kpl.demo.MainActivity
 import jso.kpl.demo.R
 import jso.kpl.demo.model.ViewTag
 import jso.kpl.demo.viewmodel.Route
@@ -17,15 +19,15 @@ import kotlinx.android.synthetic.main.custom_node.view.*
 
 class NodeAdapter
 {
-    private var itemList : ArrayList<Route>
-    private var ctx: Context
-    private var RootLinear:LinearLayout
-    private val MaxColumnCnt:Int = 3
-    private var CurrentColumn:Int = 0
-    private var LinearParams : LinearLayout.LayoutParams
+    private var itemList : ArrayList<Route> // 전체적으로 item을 추가하면 증가되는 리스트
+    private var ctx: Context // 해당 화면의 context
+    private var RootLinear:LinearLayout // customNode가 추가될 공간의 RootLinear
+    private val MaxColumnCnt:Int = 3 // 한 줄의 최대 3개의 아이템이 들어감.
+    private var CurrentColumn:Int = 0 // 현재 몇번째 줄인지
+    private var LinearParams : LinearLayout.LayoutParams // CustomNode에 들어갈 LinearParams
 
     private var tag_view : HashMap<Any, View>
-    private var idx_viewTag : HashMap<Int, ViewTag>
+    private var idx_viewTag : HashMap<Int, ViewTag> // index - [viewTag = tag, parentTag]
 
     constructor(_ctx : Context, rootLinear : LinearLayout)
     {
@@ -39,7 +41,7 @@ class NodeAdapter
         //CustomNode의 높이 값
         this.LinearParams = LinearLayout.LayoutParams(0, dpToPx(80f))
         this.LinearParams.weight = 1f
-
+        drawQuestionMarkNode()
     }
 
     constructor(itemList: ArrayList<Route>, _ctx: Context ,rootLinear : LinearLayout)
@@ -53,6 +55,7 @@ class NodeAdapter
 
         this.LinearParams = LinearLayout.LayoutParams(0, dpToPx(80f))
         this.LinearParams.weight = 1f
+        drawQuestionMarkNode()
     }
 
     fun getItemSize() : Int
@@ -60,10 +63,71 @@ class NodeAdapter
         return this.itemList.size
     }
 
+    /**
+     *  실질적으로 아이템을 추가하고 화면에 그려주는 메서드.
+     *  화면에 그려주기 전에 아래와 같은 과정을 거쳐야한다.
+     *
+     *  코드 구조가 NodeAdpater를 생성하면 drawQuestionMarkNode() 메서드를 통해서 ?노드가 생성됨
+     *  즉 모든 정상적인 Route 노드가 생성되기 위해서는 Route 노드가 생성되는 자리를 ?노드가
+     *  자리 차지하고 있으므로 ?노드를 날려주어야한다.
+     *
+     *  1. ?노드를 날려주기 위하여 마지막 노드(lastidx)를 구하고 해당 인덱스로 itemList에 적재된 ?노드를 데이터를 지운다.
+     *  2. ?노드가 어디에 삽입되었는지 알아내기 위해서 ?노드가 생성된 LinearLayout(targetLinear)을 parent_view_Tag를 통해서 찾고
+     *  3. 해당 LinearLayout에 삽입된 ?노드(targetView)를 찾아낸다.
+     *  4. targetLinear에서 targetView를 지워준다.
+     *  5. idx_viewTag에서 ?노드의 index와 viewTag를 지워준다.
+     *  6. lastidx가 3으로 나눠떨어지는 경우 새롭게 LinearLayout을 동적으로 생성된 경우기 때문에 RootLinear에서 지워준다.
+     *  7. Linear가 생성되어 개행된 경우 CurrentColumn가 증가했으므로 -1을 해준다.
+     */
     fun putItem(_route:Route)
     {
+        var lastidx:Int = itemList.size-1
+
+//        Log.d(TAG, "Route location = " + _route.location + " // cost = " + _route.cost)
+//        Log.d(TAG, "lastidx = " + lastidx)
+//        Log.d(TAG, "before itemList size = " + itemList.size)
+
+        itemList.removeAt(lastidx)
+//        Log.d(TAG, "aftre itemList size = " + itemList.size)
+
+        var targetLinear:LinearLayout =  (RootLinear.findViewWithTag<LinearLayout>(idx_viewTag.get(lastidx)?.parent_view_Tag))
+        var targetView : View = targetLinear.findViewWithTag<View>(idx_viewTag.get(lastidx)?.node_tag)
+
+//        Log.d(TAG, "targetLinear`s Tag = " + targetLinear.tag)
+//        Log.d(TAG, "targetView`s Tag = " + targetView.tag)
+//        Log.d(TAG, "before targetLinear`s size = " + targetLinear.size)
+        targetLinear.removeView(targetView)
+//        Log.d(TAG, "after targetLinear`s size = " + targetLinear.size)
+//        Log.d(TAG, "before idx_viewTag`s size = " + idx_viewTag.size)
+        idx_viewTag.remove(lastidx)
+//        Log.d(TAG, "after idx_viewTag`s size = " + idx_viewTag.size)
+
+        if(lastidx.rem(MaxColumnCnt) == 0)
+        {
+//            Log.d(TAG, "lastidx가 3의 배수입니다.")
+//            Log.d(TAG, "before RootLinear의 자식 뷰 갯수 : " + RootLinear.size)
+            RootLinear.removeView(targetLinear)
+//            Log.d(TAG, "after RootLinear의 자식 뷰 갯수 : " + RootLinear.size)
+            CurrentColumn -= 1
+        }
+        else
+        {
+            Log.d(TAG, "lastidx가 3의 배수가 아닙니다.")
+        }
+
         itemList.add(_route)
-        drawView(itemList.indexOf(_route))
+        var idx:Int = itemList.indexOf(_route)
+        drawView(idx)
+        drawQuestionMarkNode()
+    }
+
+    private fun drawQuestionMarkNode()
+    {
+        var qnode : Route = Route("?","?")
+        itemList.add(qnode)
+        var idx : Int = itemList.indexOf(qnode)
+        Log.d(TAG, "drawQuestionMarkNode, idx = " + idx)
+        drawView(itemList.indexOf(qnode))
     }
 
     private fun drawView(index:Int)
@@ -75,7 +139,7 @@ class NodeAdapter
             childLinear.tag = View.generateViewId()
             tag_view.put(childLinear.tag, childLinear)
 
-//            Log.d(TAG, "childLinear tag = " + childLinear.tag)
+            Log.d(TAG, "childLinear tag = " + childLinear.tag)
             RootLinear.addView(childLinear)
             CurrentColumn += 1
         }
@@ -177,15 +241,32 @@ class NodeAdapter
                 node.headLine.lineType = 3
                 visible_HeadLine_Previous_Node(index)
             }
-
             //노드를 Linear에 추가
             addNode(node)
         }
     }
 
-    //어차피 추가되는것은 RootLinear의 마지막 Child에게 추가될 것이기 때문에.
+    // 어차피 추가되는것은 RootLinear의 마지막 Child에게 추가될 것이기 때문에
+    // RootLinear의 마지막 view에 추가한다.
     private fun addNode(_node :View)
     {
+
+        /*
+            ?노드를 눌렀을때 노드가 추가되는지 확인하기 위한 코드 실제 코드에서는 putItem으로 추가하면됨.
+         */
+        if(_node.costtv.text.equals("?"))
+        {
+            Log.d(TAG, "add Listener to qnode")
+            _node.setOnClickListener(View.OnClickListener
+            {
+                if(!(MainActivity.dlistidx == MainActivity.dataList.size))
+                {
+                    putItem(MainActivity.dataList.get(MainActivity.dlistidx))
+                    MainActivity.dlistidx+=1
+                }
+            })
+        }
+        // ========== 여기까지 테스트 코드 =============
         (RootLinear.get(RootLinear.size-1) as LinearLayout).addView(_node)
     }
 
@@ -215,9 +296,9 @@ class NodeAdapter
         return dpToPx(dp, App.INSTANCE.resources)
     }
 
+    //dp를 px로 변환
     private fun dpToPx(dp: Float, resources: Resources): Int {
         val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
         return px.toInt()
     }
-
 }
