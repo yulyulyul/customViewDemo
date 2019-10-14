@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.core.view.get
 import androidx.core.view.size
 import jso.kpl.demo.App
@@ -17,6 +16,8 @@ import jso.kpl.demo.R
 import jso.kpl.demo.model.ViewTag
 import jso.kpl.demo.viewmodel.Route
 import kotlinx.android.synthetic.main.custom_node.view.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class NodeAdapter
 {
@@ -26,7 +27,6 @@ class NodeAdapter
     private val MaxColumnCnt:Int = 3 // 한 줄의 최대 3개의 아이템이 들어감.
     private var CurrentColumn:Int = 0 // 현재 몇번째 줄인지
     private var LinearParams : LinearLayout.LayoutParams // CustomNode에 들어갈 LinearParams
-
     private var tag_view : HashMap<Any, View>
     private var idx_viewTag : HashMap<Int, ViewTag> // index - [viewTag = tag, parentTag]
 
@@ -35,13 +35,13 @@ class NodeAdapter
         this.itemList = ArrayList<Route>()
         this.ctx = _ctx
         this.RootLinear = rootLinear
-
         this.tag_view = HashMap<Any, View>()
         this.idx_viewTag = HashMap<Int, ViewTag>()
 
         //CustomNode의 높이 값
         this.LinearParams = LinearLayout.LayoutParams(0, dpToPx(80f))
         this.LinearParams.weight = 1f
+        // QuestionMarkNode를 그려준다.
         drawQuestionMarkNode()
     }
 
@@ -56,6 +56,7 @@ class NodeAdapter
 
         this.LinearParams = LinearLayout.LayoutParams(0, dpToPx(80f))
         this.LinearParams.weight = 1f
+        // QuestionMarkNode를 그려준다.
         drawQuestionMarkNode()
     }
 
@@ -258,7 +259,6 @@ class NodeAdapter
     // RootLinear의 마지막 view에 추가한다.
     private fun addNode(_node :View, _idx:Int)
     {
-
         /*
             ?노드를 눌렀을때 노드가 추가/삭제 되는지 확인하기 위한 코드
             추가 : 실제 코드에서는 putItem으로 추가하면됨.
@@ -268,6 +268,7 @@ class NodeAdapter
             Log.d(TAG, "add Listener to qnode")
             _node.setOnClickListener(View.OnClickListener
             {
+                // QuestionMark Node일 경우 해당 리스너 부여
                 if(!(MainActivity.dlistidx == MainActivity.dataList.size))
                 {
                     putItem(MainActivity.dataList.get(MainActivity.dlistidx))
@@ -277,25 +278,16 @@ class NodeAdapter
         }
         else
         {
+            _node.setOnClickListener(View.OnClickListener {
+                Toast.makeText(ctx, "node location : " + _node.locationText.text + " cost val : " + _node.costtv.text, Toast.LENGTH_SHORT).show()
+            })
             _node.setOnLongClickListener(View.OnLongClickListener{
                 Toast.makeText(ctx, "해당 노드를 삭제합니다.", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "삭제 노드`s idx = " + _idx)
                 Log.d(TAG, "삭제 노드`s location = " + _node.locationText.text)
                 Log.d(TAG, "삭제 노드`s cost = " + _node.costtv.text)
-//                removeQestionMarkNode()
-//                Log.d(TAG,"1. idx val = " + _idx)
-//                idx_viewTag.remove(_idx)
-//                Log.d(TAG,"2. idx val = " + _idx)
-//                itemList.removeAt(_idx)
 
-                Log.d(TAG,"idx_viewTag.size -1 :  " + (idx_viewTag.size -1))
-                val targetIdx : Int = idx_viewTag.size-1
-                for(i in _idx..targetIdx)
-                {
-                    Log.d(TAG, "i = " + i)
-                    var tmpIdx : Int = _idx + 1
-                    idx_viewTag.replace(_idx, idx_viewTag.get(tmpIdx)!!)
-                }
+                removeItem(_idx)
 
                 true
             })
@@ -304,6 +296,69 @@ class NodeAdapter
         (RootLinear.get(RootLinear.size-1) as LinearLayout).addView(_node)
     }
 
+    /**
+     *  화면에서 커스텀뷰를 삭제하는 메서드
+     *  현재는 LongClickListener에 넣어둠.
+     *
+        qnode == QuestionMarkNode
+        1. 일단 qnode를 삭제
+        2. idx_viewTag랑 itemList의 인덱스 동기화를 위해서
+         itemList.add(Route("?","?"))에 qnode를 삽입한다.(removeQuestionMarkNode 메서드에서 ItemList까지 삭제하는데
+         밑에서 다시한번 qnode를 지워줄때 동기화가 안되면 에러가 나기 때문에 추가해준다... 어차피 밑의 두번째 removeQue~에서 지워짐)
+
+         3. itemList에서 삭제할 노드의 아이템을 삭제한다.
+         4. itemList에서 조정된 노드들을 view에 다시 그려주고 리스너를 초기화한다.
+         5. 다시 qnode를 그려준다.
+     */
+    private fun removeItem(index:Int)
+    {
+        val targetIdx : Int = idx_viewTag.size-1
+        Log.d(TAG, "print map start")
+        printMap(idx_viewTag)
+
+        removeQestionMarkNode()
+
+        //QestionMark 데이터를 추가해준다.
+        itemList.add(Route("?","?"))
+
+        itemList.removeAt(index)
+        printItemList()
+        printMap(idx_viewTag)
+
+        removeQestionMarkNode()
+
+        Log.d(TAG, "Twice Remove?")
+        printItemList()
+        printMap(idx_viewTag)
+
+        for(i in index..targetIdx)
+        {
+            var tmpIdx : Int = i + 1
+            if(idx_viewTag.size < tmpIdx) break
+
+            var node : View = (RootLinear.findViewWithTag<LinearLayout>(idx_viewTag.get(i)?.parent_view_Tag)).findViewWithTag<View>(idx_viewTag.get(i)?.node_tag)
+
+            Log.d(TAG, "[i] = " + i + " // item = " + itemList.get(i).location)
+            node.locationText.text = itemList.get(i).location
+            node.costtv.text = itemList.get(i).cost
+
+            // 리스너 초기화
+            node.setOnClickListener(null)
+            node.setOnLongClickListener(null)
+
+            // 여기도 테스트 코드
+            // 삭제는 removeItem(index)로 하면됨.
+            // 일단 길게 누르면 삭제되게 만듬
+            node.setOnClickListener({ Toast.makeText(ctx, "redraw node location : " + node.locationText.text + " cost val : " + node.costtv.text, Toast.LENGTH_SHORT).show()})
+            node.setOnLongClickListener(
+                {
+                    removeItem(i)
+                    true
+                })
+            //====== 여기까지 테스트 코드 ========
+        }
+        drawQuestionMarkNode()
+    }
     /*
        홀수행의 노드들은 새로 추가할때 이전 노드의 tailLine의 visibility를 Invisible에서 Visible로 바꿔줘야한다.
 
@@ -334,5 +389,27 @@ class NodeAdapter
     private fun dpToPx(dp: Float, resources: Resources): Int {
         val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
         return px.toInt()
+    }
+
+    private fun printItemList()
+    {
+
+        for( route in itemList)
+        {
+            Log.d(TAG, "[${itemList.indexOf(route)}] , location : " + route.location + "    cost : "+ route.cost)
+        }
+    }
+
+    private fun printMap(mapval : HashMap<Int, ViewTag>)
+    {
+        val keys = mapval.keys.toIntArray()
+        keys.sort()
+        Log.d(TAG, "========= print Map =========")
+        for(i in keys)
+        {
+//            Log.d(TAG, "[$i] : " + mapval.get(i))
+              Log.d(TAG, "[$i] : " + mapval.get(i) + "// location : " + (RootLinear.findViewWithTag<LinearLayout>(mapval.get(i)?.parent_view_Tag)).findViewWithTag<View>(mapval.get(i)?.node_tag).locationText.text)
+        }
+        Log.d(TAG, "========= end =========")
     }
 }
